@@ -4,6 +4,10 @@ const db = require('../../models')
 const Todo = db.Todo
 const User = db.User
 
+router.get('/new', (req, res) => {
+  res.render('new')
+})
+
 router.get('/:id', (req, res) => {
   const id = req.params.id
   return Todo.findByPk(id)
