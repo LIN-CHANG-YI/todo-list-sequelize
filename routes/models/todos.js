@@ -26,8 +26,15 @@ router.get('/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-router.put(':id', (req, res) => {
-
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id
+  const UserId = req.user.id
+  Todo.findOne({ where: { id, UserId } })
+    .then(todo => {
+      todo = todo.toJSON()
+      res.render('edit', { todo })
+    })
+    .catch(error => console.log(error))
 })
 
 module.exports = router
