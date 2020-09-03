@@ -20,10 +20,22 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
+  const errors = []
+  if (!name || !email || !password || !confirmPassword) {
+    errors.push({ message: '全部欄位都必填' })
+  } else if (password !== confirmPassword) {
+    errors.push({ message: '密碼與確認密碼必須相同' })
+  } else if (password.length < 8) {
+    errors.push({ message: '密碼至少8位數' })
+  }
+  if (errors.length) {
+    return res.render('register', { errors, name, email, password, confirmPassword })
+  }
   User.findOne({ where: { email } }).then(user => {
     if (user) {
-      console.log('User already exists')
+      errors.push({ message: '此帳號已註冊' })
       return res.render('register', {
+        errors,
         name,
         email,
         password,
