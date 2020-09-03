@@ -18,11 +18,16 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  return Todo.findByPk(id)
+  const UserId = req.user.id
+  return Todo.findOne({ where: { id, UserId } })
     .then(todo => {
       res.render('detail', { todo: todo.toJSON() })
     })
     .catch(error => console.log(error))
+})
+
+router.put(':id', (req, res) => {
+
 })
 
 module.exports = router
