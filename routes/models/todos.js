@@ -8,6 +8,14 @@ router.get('/new', (req, res) => {
   res.render('new')
 })
 
+router.post('/', (req, res) => {
+  const name = req.body.name
+  const UserId = req.user.id
+  Todo.create({ name, UserId, isDone: false })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 router.get('/:id', (req, res) => {
   const id = req.params.id
   return Todo.findByPk(id)
