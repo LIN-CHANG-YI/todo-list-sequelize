@@ -45,6 +45,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('warning_msg', '登出成功')
   res.redirect('/users/login')
 })
 
